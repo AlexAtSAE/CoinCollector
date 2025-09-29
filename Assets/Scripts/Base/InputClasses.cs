@@ -1,20 +1,24 @@
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 public class Input<t>
 {
     public t Value { get; private set; }
+    private t PreviousValue;
     public float TimeHeld { get; private set; }
     public Ease Ease;
     public RawInput[] Inputs;
+    public bool InputChanged = false;
 
     public Input(params RawInput[] inputs)
     {
         Inputs = inputs;
     }
 
+    //NOTE can NOT remove subscribtions to this.
+    public HashSet<Action<t>> onValueChanged = new HashSet<Action<t>>();
     public void Update()
     {
         t Output = default; //autocomplete goat
@@ -82,7 +86,21 @@ public class Input<t>
         }
         //Set value of this input
         Value = (t)(object)Output;
+        if (!Value.Equals(PreviousValue))
+        {
+            InputChanged = true;
+            foreach(Action<t> func in onValueChanged)
+            {
+                func.Invoke(Value);
+            }
+        }
+        else
+        {
+            InputChanged = false;
+        }
+            PreviousValue = Value;
     }
+    
 }
 
 public abstract class RawInput
