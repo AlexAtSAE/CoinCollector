@@ -3,15 +3,19 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     InputManager inputManager;
+    
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform cam;
     [SerializeField] private Transform body;
     public Vector2 cameraSensitivity;
     public float speed;
     public bool paused;
+    
+    private UserSettings  userSettings;
     void Start()
     {
         inputManager = InputManager.instance;
+        userSettings = UserSettings.instance;
         cam = cam.GetComponent<Transform>();
     }
 
@@ -20,7 +24,8 @@ public class PlayerMovement : MonoBehaviour
     float angleYaw = 0.0f;
     void Update()
     {
-        if(!paused)
+        if (!userSettings.gamePaused)
+            PlayerDefaultInputs();
             AffectPlayer();
     }
 
@@ -35,10 +40,25 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(fwd + right);
         }
         Vector2 cameraInputValue = inputManager.RotateView.Value;
-        anglePitch += cameraInputValue.x * Time.deltaTime * cameraSensitivity.x;
-        angleYaw += cameraInputValue.y * Time.deltaTime * cameraSensitivity.y;
+        anglePitch += cameraInputValue.x * Time.deltaTime * userSettings.mouseSensitivity.x;
+        angleYaw += cameraInputValue.y * Time.deltaTime * userSettings.mouseSensitivity.y;
         angleYaw = Mathf.Clamp(angleYaw, -75f, 80f);
         cam.rotation = Quaternion.Euler(-angleYaw, anglePitch, 0);
         body.rotation = Quaternion.Euler(0, anglePitch, 0);
+
+        
+        
+    }
+
+    void PlayerDefaultInputs()
+    {
+        if (inputManager.Interact.Value == true)
+            Debug.Log("Interact");
+
+        if (inputManager.RefreshKeybinds.Value == true)
+        {
+            inputManager.RefreshKeys();
+        }
+            
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     public static InputManager instance;
+    private UserSettings userSettings;
     
     
     //Inputs that will be used
@@ -23,23 +24,40 @@ public class InputManager : MonoBehaviour
     {
         Ease = Ease.None
     };
-    
-    public Input<bool> Interact = new Input<bool>(new KeyInput(KeyCode.E))
-    {
-        Ease = Ease.None
-    };
 
-    public Input<Vector2> RotateView = new Input<Vector2>(
-        new MouseInput("Mouse X"), 
-        new MouseInput("Mouse Y", InputEffects.Swizzle))
-    {
-        Ease = Ease.None
-    };
+    public Input<bool> Interact;
+    
+    public Input<bool> RefreshKeybinds = new Input<bool>(new KeyInput(KeyCode.Semicolon));
+
+    public Input<Vector2> RotateView;
 
     void OnEnable()
     {
         instance = this;
         Cursor.lockState = CursorLockMode.Locked;
+        userSettings = UserSettings.instance;
+    }
+
+    void Start()
+    {
+        RefreshKeys();
+    }
+
+    //Called when keybinds are changed
+    public void RefreshKeys()
+    {
+        Debug.Log("RefreshKeys");
+        Interact = new Input<bool>(new KeyInput(userSettings.Interact))
+        {
+            Ease = Ease.None
+        };
+        
+        RotateView = new Input<Vector2>(
+            new MouseInput("Mouse X"), 
+            new MouseInput("Mouse Y", InputEffects.Swizzle))
+        {
+            Ease = Ease.None
+        };
     }
 
     private void Update()
@@ -48,5 +66,6 @@ public class InputManager : MonoBehaviour
         Jump.Update();
         Interact.Update();
         RotateView.Update();
+        RefreshKeybinds.Update();
     }
 }

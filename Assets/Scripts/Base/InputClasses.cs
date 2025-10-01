@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
+
 public class Input<t>
 {
     public t Value { get; private set; }
@@ -98,7 +99,7 @@ public class Input<t>
         {
             InputChanged = false;
         }
-            PreviousValue = Value;
+        PreviousValue = Value;
     }
     
 }
