@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if(!paused)
             AffectPlayer();
-
     }
 
 
