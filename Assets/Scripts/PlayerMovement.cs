@@ -11,11 +11,15 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     public bool paused;
     
-    private UserSettings  userSettings;
+    private UserSettings userSettings;
     void Start()
     {
         inputManager = InputManager.instance;
-        userSettings = UserSettings.instance;
+        
+        if (UserSettings.instance != null)
+            userSettings = UserSettings.instance;
+        else{userSettings = new UserSettings(); Debug.Log("UserSettings.instance == null"); }
+        
         cam = cam.GetComponent<Transform>();
     }
 
@@ -32,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     void AffectPlayer()
     {
-        Vector2 movementInputValue = inputManager.Move.Value;
+        Vector2 movementInputValue = inputManager.MovementInput.Value;
         if (!movementInputValue.Equals(Vector2.zero))
         {
             Vector3 fwd = body.forward * speed * Time.deltaTime * movementInputValue.y;
@@ -45,19 +49,18 @@ public class PlayerMovement : MonoBehaviour
         angleYaw = Mathf.Clamp(angleYaw, -75f, 80f);
         cam.rotation = Quaternion.Euler(-angleYaw, anglePitch, 0);
         body.rotation = Quaternion.Euler(0, anglePitch, 0);
+        
 
-        
-        
     }
 
     void PlayerDefaultInputs()
     {
-        if (inputManager.Interact.Value == true)
-            Debug.Log("Interact");
+        if (inputManager.InteractInput.InputPressed == true)
+            Debug.Log($"Interact");
 
-        if (inputManager.RefreshKeybinds.Value == true)
+        if (inputManager.RefreshKeybinds.InputPressed == true)
         {
-            inputManager.RefreshKeys();
+            inputManager.RefreshInputs();
         }
             
     }

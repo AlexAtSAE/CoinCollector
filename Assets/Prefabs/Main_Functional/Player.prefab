@@ -67,7 +67,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 71
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -487,11 +487,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc6678e55d690948846c71eb280ef2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  rb: {fileID: 0}
-  cam: {fileID: 0}
-  body: {fileID: 0}
-  cameraSensitivity: {x: 0, y: 0}
-  speed: 0
+  rb: {fileID: 1715069447237637199}
+  cam: {fileID: 2224309726328603113}
+  body: {fileID: 4414944051268353983}
+  cameraSensitivity: {x: 120, y: 120}
+  speed: 2000
   paused: 0
 --- !u!54 &1715069447237637199
 Rigidbody:

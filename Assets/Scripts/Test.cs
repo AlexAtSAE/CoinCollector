@@ -9,7 +9,7 @@ public class Test : MonoBehaviour
     UserSettings gameSettings;
     void Start()
     {
-        inputManager = InputManager.instance;
+        //inputManager = InputManager.instance;
         gameSettings = UserSettings.instance;
     }
 

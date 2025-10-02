@@ -1,71 +1,58 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
     public static InputManager instance;
     private UserSettings userSettings;
-    
-    
-    //Inputs that will be used
-    public Input<Vector2> Move = new Input<Vector2>(
-        new KeyInput(KeyCode.W,InputEffects.Swizzle),
-        new KeyInput(KeyCode.A,InputEffects.Negate),
-        new KeyInput(KeyCode.S,InputEffects.Swizzle,InputEffects.Negate),
-        new KeyInput(KeyCode.D))
-    {
-        Ease = Ease.Quadratic
-    };
-    
-    
-    public Input<bool> Jump = new Input<bool>(new KeyInput(KeyCode.Space))
-    {
-        Ease = Ease.None
-    };
-
-    public Input<bool> Interact;
-    
-    public Input<bool> RefreshKeybinds = new Input<bool>(new KeyInput(KeyCode.Semicolon));
-
-    public Input<Vector2> RotateView;
-
+    [CustomInput] public BooleanInput JumpInput;
+    [CustomInput] public BooleanInput InteractInput;
+    [CustomInput] public BooleanInput RefreshKeybinds;
+    [CustomInput] public VectorInput MovementInput;
+    [CustomInput] public MouseVectorInput RotateView;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void OnEnable()
     {
         instance = this;
-        Cursor.lockState = CursorLockMode.Locked;
-        userSettings = UserSettings.instance;
     }
 
     void Start()
     {
-        RefreshKeys();
+        Cursor.lockState = CursorLockMode.Locked;
+        userSettings = UserSettings.instance;
+        RefreshInputs();
     }
-
-    //Called when keybinds are changed
-    public void RefreshKeys()
+    // Update is called once per frame
+    void Update()
     {
-        Debug.Log("RefreshKeys");
-        Interact = new Input<bool>(new KeyInput(userSettings.Interact))
-        {
-            Ease = Ease.None
-        };
-        
-        RotateView = new Input<Vector2>(
-            new MouseInput("Mouse X"), 
-            new MouseInput("Mouse Y", InputEffects.Swizzle))
-        {
-            Ease = Ease.None
-        };
-    }
-
-    private void Update()
-    {
-        Move.Update();
-        Jump.Update();
-        Interact.Update();
-        RotateView.Update();
+        //Figure out a way to collect these and update them automatically (attributes?) [CustomInput]
+        JumpInput.Update();
+        InteractInput.Update();
         RefreshKeybinds.Update();
+        MovementInput.Update();
+        RotateView.Update();
     }
+    public void RefreshInputs()
+    {
+        Debug.Log("Refreshing Inputs");
+        JumpInput = new BooleanInput(new KeyInput(KeyCode.Space));
+        InteractInput = new BooleanInput(new KeyInput(userSettings.InteractKey));
+        RefreshKeybinds = new BooleanInput(new KeyInput(KeyCode.Return));
+
+        MovementInput = new VectorInput(
+            new KeyInput(KeyCode.W, inputEffects.Swizzle),
+            new KeyInput(KeyCode.S, inputEffects.Swizzle, inputEffects.Negate),
+            new KeyInput(KeyCode.D),
+            new KeyInput(KeyCode.A, inputEffects.Negate));
+
+        RotateView = new MouseVectorInput(
+            new MouseInput("Mouse X"),
+            new MouseInput("Mouse Y", inputEffects.Swizzle));
+
+    }
+}
+
+class CustomInput : Attribute
+{
+    
 }

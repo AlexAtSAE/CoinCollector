@@ -1,167 +1,189 @@
-using System;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
-
-public class Input<t>
+public abstract class Input<t>
 {
-    public t Value { get; private set; }
-    private t PreviousValue;
-    public float TimeHeld { get; private set; }
-    public Ease Ease;
-    public RawInput[] Inputs;
-    public bool InputChanged = false;
+    public t Value;
+    //True when the value is changed
+    public bool OnValueChanged;
+    public KeyInput[] keyInputs;
+    abstract public void Update();
+}
 
-    public Input(params RawInput[] inputs)
+/// <summary>
+/// Boolean input can be either true or false. If one of the inputs are true then the value of this input is true.
+/// No effects are applicable
+/// </summary>
+public class BooleanInput : Input<bool>
+{
+    /// <summary> True the frame the input is pressed </summary>
+    public bool InputPressed;
+    // <summary> True the frame the input is released </summary>
+    public bool InputReleased;
+    /// <summary> Returns the amount of time this input has been held for</summary>
+    public float TimeHeld;
+    /// <summary> Returns the amount of time since this input has been released</summary>
+    public float TimeSinceRelease;
+    public BooleanInput(params KeyInput[] keyInputs)
     {
-        Inputs = inputs;
+        this.keyInputs = keyInputs;
     }
 
-    //NOTE can NOT remove subscribtions to this.
-    public HashSet<Action<t>> onValueChanged = new HashSet<Action<t>>();
-    public void Update()
+    public override void Update()
     {
-        t Output = default; //autocomplete goat
-        foreach (RawInput input in Inputs)
+        bool thisValue = false;
+        foreach (KeyInput keyInput in keyInputs)
         {
-            //Get values for this input key
-            t ThisInputResult = default;
-            float res = input.Result();
-            
-            //get result of this input type
-            if (typeof(t) == typeof(Vector2))
+            if (Input.GetKey(keyInput.key))
             {
-                ThisInputResult = (t)(object)new Vector2(res,0.0f);
-            }
-            if (typeof(t) == typeof(float))
-            {
-                ThisInputResult = (t)(object)res;
-            }
-            if (typeof(t) == typeof(bool))
-            {
-                ThisInputResult = (t)(object)(res >= 0.5f);
-            }
-            //Handle input effects
-            InputEffects[] effects = input.Effects;
-            foreach (InputEffects effect in effects)
-            {
-                if (typeof(t) == typeof(bool) || typeof(t) == typeof(float) && effect == InputEffects.Swizzle)
-                    continue;
-                if (effect == InputEffects.Swizzle)
-                {
-                    //Only executes if t is NOT bool or float
-                    ThisInputResult = (t)(object)new Vector2(0.0f,res);
-                }
-
-                if (effect == InputEffects.Negate)
-                {
-                    if (ThisInputResult is bool b)
-                    {
-                        ThisInputResult = (t)(object)!b;
-                    }
-                    if (ThisInputResult is float F)
-                    {
-                        ThisInputResult = (t)(object)-F;
-                    }
-                    if (ThisInputResult is Vector2 V)
-                    {
-                        ThisInputResult = (t)(object)(-V);
-                    }
-                }
+                thisValue = true;
                 
             }
-            //Add to final output
-            if (Output is float outputFloat &&  ThisInputResult is float inputResultFloat)
-            {
-                Output =  (t)(object)(outputFloat+inputResultFloat);
-            }
-            if (Output is bool outputBool &&  ThisInputResult is bool inputResultBool)
-            {
-                Output =  (t)(object)(outputBool||inputResultBool);
-            }
-            if (Output is Vector2 outputVector &&  ThisInputResult is Vector2 inputResultVector)
-            {
-                Output =  (t)(object)(outputVector+inputResultVector);
-            }
         }
-        //Set value of this input
-        Value = (t)(object)Output;
-        if (!Value.Equals(PreviousValue))
+        //Manage time held and since release
+        if (thisValue == false) {TimeHeld = 0; TimeSinceRelease += Time.deltaTime;}
+        else {TimeHeld+=Time.deltaTime; TimeSinceRelease = 0;}
+        
+        //check if value was pressed or released
+        if (thisValue != Value)
         {
-            InputChanged = true;
-            foreach(Action<t> func in onValueChanged)
+            if(thisValue == true)
+                InputPressed = true;
+            if(thisValue == false)
+                InputReleased = true;
+        }
+        else {InputPressed = false; InputReleased = false;}
+        Value = thisValue;
+    }
+    
+}
+
+
+/// <summary>
+/// Basically a tri state boolean until easing is figured out
+/// </summary>
+public class LinearInput : Input<float>
+{
+    public LinearInput(params KeyInput[] keyInputs)
+    {
+        this.keyInputs = keyInputs;
+    }
+    
+    public override void Update()
+    {
+        float thisValue = 0.0f;
+        
+        foreach (KeyInput keyInput in keyInputs)
+        {
+            inputEffects[] effects = keyInput.effects;
+            
+            if (Input.GetKey(keyInput.key))
             {
-                func.Invoke(Value);
+                if (!effects.Contains(inputEffects.Negate))
+                    thisValue = 1.0f;
+                else thisValue = -1.0f;
             }
         }
-        else
+        
+        Value = thisValue;
+    }
+}
+
+public class VectorInput : Input<Vector2>
+{
+    public VectorInput(params KeyInput[] keyInputs)
+    {
+        this.keyInputs = keyInputs;
+    }
+    public override void Update()
+    {
+        Vector2 thisValue = new Vector2();
+        
+        foreach (KeyInput keyInput in keyInputs)
         {
-            InputChanged = false;
+            inputEffects[] effects = keyInput.effects;
+            
+            if (Input.GetKey(keyInput.key))
+            {
+                float val = 1.0f;
+                if(effects.Contains(inputEffects.Negate))
+                    val = -1.0f;
+                if (effects.Contains(inputEffects.Swizzle))
+                    thisValue.y += val;
+                else
+                    thisValue.x += val;
+            }
         }
-        PreviousValue = Value;
+        
+        Value = new Vector2(Mathf.Clamp(thisValue.x,-1f,1f), Mathf.Clamp(thisValue.y,-1f,1f));
     }
-    
 }
 
-public abstract class RawInput
+public class MouseVectorInput : Input<Vector2>
 {
-    public InputEffects[] Effects;
-    public abstract float Result();
-}
-
-public class MouseInput : RawInput
-{
-    String axis;
-    public MouseInput(String Axis, params InputEffects[] inputEffects)
+    MouseInput[] mouseInputs;
+    public MouseVectorInput(params MouseInput[] mouseInputs)
     {
-        axis = Axis;
-        Effects = inputEffects;
+        this.mouseInputs = mouseInputs;
     }
 
-    public override float Result()
+    public override void Update()
     {
-        return Input.GetAxis(axis);
-    }
-    
-    
-}
-public class KeyInput : RawInput
-{
-    KeyCode Key;
-    public KeyInput(KeyCode key, params InputEffects[] effects)
-    {
-        Key = key;
-        Effects = effects;
-    }
-    public override float Result()
-    {
-        if (Input.GetKey(Key))
-            return 1f;
-        return 0f;
-    }
-    
-}
-
-public static class InputFunctions
-{
-    
-    static float None(float x)
-    {
-        return x;
+        Vector2 thisValue = new Vector2();
+        foreach (MouseInput mouseInput in mouseInputs)
+        {
+            inputEffects[] effects = mouseInput.effects;
+            float value = Input.GetAxis(mouseInput.inputName);
+            if(effects.Contains(inputEffects.Negate))
+                value = -value;
+            if (effects.Contains(inputEffects.Swizzle))
+            {
+                thisValue.y += value;
+            }
+            else
+            {
+                thisValue.x += value;
+            }
+        }
+        Value = thisValue;
     }
 }
 
-public enum Ease
-{
-    None,
-    Linear,
-    Quadratic,
-    Cubic,
-}
 
-public enum InputEffects
+public class MouseInput
 {
-    Swizzle,
-    Negate
+    public string inputName;
+    public inputEffects[] effects {get; private set; }
+
+    public MouseInput(string inputName, params inputEffects[] effects)
+    {
+        this.inputName = inputName;
+        this.effects = effects;
+    }
+
+    public MouseInput(string inputName)
+    {
+        this.inputName = inputName;
+        effects = new inputEffects[0];
+    }
+}
+public class KeyInput
+{
+    public KeyCode key {get; private set; }
+    public inputEffects[] effects {get; private set; }
+    public KeyInput(KeyCode key, params inputEffects[] effects)
+    {
+        this.key = key;
+        this.effects = effects;
+    }
+    public KeyInput(KeyCode key)
+    {
+        this.key = key;
+        this.effects = new inputEffects[0];
+    }
+}
+public enum inputEffects
+{
+    Swizzle,    //Only applicable to Vectors
+    Negate,     //Inverted direction
 }
