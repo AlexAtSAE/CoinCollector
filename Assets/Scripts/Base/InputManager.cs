@@ -10,7 +10,6 @@ public class InputManager : MonoBehaviour
     [CustomInput] public BooleanInput RefreshKeybinds;
     [CustomInput] public VectorInput MovementInput;
     [CustomInput] public MouseVectorInput RotateView;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void OnEnable()
     {
         instance = this;
@@ -22,7 +21,7 @@ public class InputManager : MonoBehaviour
         userSettings = UserSettings.instance;
         RefreshInputs();
     }
-    // Update is called once per frame
+
     void Update()
     {
         //Figure out a way to collect these and update them automatically (attributes?) [CustomInput]
@@ -40,14 +39,14 @@ public class InputManager : MonoBehaviour
         RefreshKeybinds = new BooleanInput(new KeyInput(KeyCode.Return));
 
         MovementInput = new VectorInput(
-            new KeyInput(KeyCode.W, inputEffects.Swizzle),
-            new KeyInput(KeyCode.S, inputEffects.Swizzle, inputEffects.Negate),
+            new KeyInput(KeyCode.W, inputEffects.SwizzleXY),
+            new KeyInput(KeyCode.S, inputEffects.SwizzleXY, inputEffects.Negate),
             new KeyInput(KeyCode.D),
             new KeyInput(KeyCode.A, inputEffects.Negate));
 
         RotateView = new MouseVectorInput(
             new MouseInput("Mouse X"),
-            new MouseInput("Mouse Y", inputEffects.Swizzle));
+            new MouseInput("Mouse Y", inputEffects.SwizzleXY));
 
     }
 }

@@ -4,9 +4,6 @@ using UnityEngine;
 public abstract class Input<t>
 {
     public t Value;
-    //True when the value is changed
-    public bool OnValueChanged;
-    public KeyInput[] keyInputs;
     abstract public void Update();
 }
 
@@ -16,6 +13,7 @@ public abstract class Input<t>
 /// </summary>
 public class BooleanInput : Input<bool>
 {
+    public KeyInput[] keyInputs;
     /// <summary> True the frame the input is pressed </summary>
     public bool InputPressed;
     // <summary> True the frame the input is released </summary>
@@ -64,6 +62,7 @@ public class BooleanInput : Input<bool>
 /// </summary>
 public class LinearInput : Input<float>
 {
+    public KeyInput[] keyInputs;
     public LinearInput(params KeyInput[] keyInputs)
     {
         this.keyInputs = keyInputs;
@@ -80,17 +79,22 @@ public class LinearInput : Input<float>
             if (Input.GetKey(keyInput.key))
             {
                 if (!effects.Contains(inputEffects.Negate))
-                    thisValue = 1.0f;
-                else thisValue = -1.0f;
+                    thisValue += 1.0f;
+                else thisValue += -1.0f;
             }
         }
         
-        Value = thisValue;
+        Value = Mathf.Clamp(thisValue,-1.0f,1.0f);
     }
 }
 
+/// <summary>
+/// Simply a two-dimensional tri state boolean... penta state boolean?
+/// Swizzle will swap between the 2 axis
+/// </summary>
 public class VectorInput : Input<Vector2>
 {
+    public KeyInput[] keyInputs;
     public VectorInput(params KeyInput[] keyInputs)
     {
         this.keyInputs = keyInputs;
@@ -108,7 +112,7 @@ public class VectorInput : Input<Vector2>
                 float val = 1.0f;
                 if(effects.Contains(inputEffects.Negate))
                     val = -1.0f;
-                if (effects.Contains(inputEffects.Swizzle))
+                if (effects.Contains(inputEffects.SwizzleXY))
                     thisValue.y += val;
                 else
                     thisValue.x += val;
@@ -136,7 +140,7 @@ public class MouseVectorInput : Input<Vector2>
             float value = Input.GetAxis(mouseInput.inputName);
             if(effects.Contains(inputEffects.Negate))
                 value = -value;
-            if (effects.Contains(inputEffects.Swizzle))
+            if (effects.Contains(inputEffects.SwizzleXY))
             {
                 thisValue.y += value;
             }
@@ -184,6 +188,6 @@ public class KeyInput
 }
 public enum inputEffects
 {
-    Swizzle,    //Only applicable to Vectors
+    SwizzleXY,    //Only applicable to Vectors
     Negate,     //Inverted direction
 }
