@@ -6,7 +6,7 @@ public class UserSettings : ScriptableObject
     public static UserSettings instance;
 
     public KeyCode InteractKey;
-    void OnEnable()
+    void OnValidate()
     {
         instance = this;
     }

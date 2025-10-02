@@ -17,9 +17,7 @@ public class PlayerMovement : MonoBehaviour
     {
         inputManager = InputManager.instance;
         
-        if (UserSettings.instance != null)
-            userSettings = UserSettings.instance;
-        else{userSettings = new UserSettings(); Debug.Log("UserSettings.instance == null"); }
+        userSettings = UserSettings.instance;
         
         cam = cam.GetComponent<Transform>();
     }
