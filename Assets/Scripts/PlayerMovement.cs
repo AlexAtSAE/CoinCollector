@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 cameraSensitivity;
     public float speed;
     public bool paused;
+    public float jumpForce = 1.0f;
     
     private UserSettings userSettings;
     void Start()
@@ -49,6 +50,11 @@ public class PlayerMovement : MonoBehaviour
         angleYaw = Mathf.Clamp(angleYaw, -75f, 80f);
         cam.rotation = Quaternion.Euler(-angleYaw, anglePitch, 0);
         body.rotation = Quaternion.Euler(0, anglePitch, 0);
+
+        if (inputManager.JumpInput.Value)
+        {
+            rb.AddForce(new  Vector3(0, jumpForce, 0), ForceMode.Impulse);
+        }
         
 
     }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928767fa83a5cc8409777f33f57e61bf, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: Assembly-CSharp::GameSettings
-  InteractKey: 102
+  InteractKey: 101
   gamePaused: 0
   mouseSensitivity: {x: 120, y: 120}
