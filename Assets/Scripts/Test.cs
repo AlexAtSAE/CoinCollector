@@ -10,7 +10,6 @@ public class Test : MonoBehaviour
     void Start()
     {
         //inputManager = InputManager.instance;
-        gameSettings = UserSettings.instance;
     }
 
     // Update is called once per frame

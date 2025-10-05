@@ -4,7 +4,7 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     public static InputManager instance;
-    private UserSettings userSettings;
+    public UserSettings userSettings;
     [CustomInput] public BooleanInput JumpInput;
     [CustomInput] public BooleanInput InteractInput;
     [CustomInput] public BooleanInput RefreshKeybinds;
@@ -18,7 +18,6 @@ public class InputManager : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        userSettings = UserSettings.instance;
         RefreshInputs();
     }
 

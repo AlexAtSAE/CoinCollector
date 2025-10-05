@@ -881,6 +881,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 368641900425480303, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
+      propertyPath: userSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: cdf6ae74ba998c34f9dd7eee1c758a27, type: 2}
     - target: {fileID: 1715069447237637199, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
       propertyPath: m_Constraints
       value: 112
@@ -1662,6 +1666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0129a586d23c51d40a82b7c255164425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  userSettings: {fileID: 11400000, guid: cdf6ae74ba998c34f9dd7eee1c758a27, type: 2}
 --- !u!1001 &2039557669
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,12 +12,11 @@ public class PlayerMovement : MonoBehaviour
     public bool paused;
     public float jumpForce = 1.0f;
     
-    private UserSettings userSettings;
+    public UserSettings userSettings;
     void Start()
     {
         inputManager = InputManager.instance;
         
-        userSettings = UserSettings.instance;
         
         cam = cam.GetComponent<Transform>();
     }
