@@ -7,23 +7,24 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform cam;
     [SerializeField] private Transform body;
-    public Vector2 cameraSensitivity;
     public float speed;
-    public bool paused;
     public float jumpForce = 1.0f;
+
+    [HideInInspector] [SerializeField] private float damping;
+    [Range(0, 1)][SerializeField] private float DefaultDamping;
+    [Range(0, 1)][SerializeField] private float SlidingDamping;
     
     public UserSettings userSettings;
+ 
+    private float jumpCD;
+    private float DefaultCameraFOV;
+    [SerializeField] private float DeltaCameraFOV;
 
-
-    [Header("TESTING NEW SETTINGS")]
-    [SerializeField] private float damping;
-    [SerializeField] private float jumpCD;
+    [HideInInspector] public bool sliding;
     void Start()
     {
         inputManager = InputManager.instance;
-        
-        
-        cam = cam.GetComponent<Transform>();
+        DefaultCameraFOV = userSettings.FOV;
     }
 
     // Update is called once per frame
@@ -32,8 +33,10 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (!userSettings.gamePaused)
+        {
             PlayerDefaultInputs();
             AffectPlayer();
+        }
     }
 
 
@@ -44,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
         if (!movementInputValue.Equals(Vector2.zero))
         {
             Vector3 fwd = body.forward * speed * Time.deltaTime * movementInputValue.y;
-            Vector3 right = body.right * speed * Time.deltaTime * movementInputValue.x;
+            Vector3 right = sliding ? Vector3.zero : body.right * speed * Time.deltaTime * movementInputValue.x;
             rb.linearVelocity += (fwd + right)/Mathf.Max(1,rb.linearVelocity.magnitude);
         }
         //Damp it
@@ -65,19 +68,30 @@ public class PlayerMovement : MonoBehaviour
         angleYaw += cameraInputValue.y * Time.deltaTime * userSettings.mouseSensitivity.y;
         angleYaw = Mathf.Clamp(angleYaw, -75f, 80f);
         cam.rotation = Quaternion.Euler(-angleYaw, anglePitch, 0);
-        body.rotation = Quaternion.Euler(0, anglePitch, 0);
+        body.rotation = sliding ? body.rotation : Quaternion.Euler(0, anglePitch, 0);
 
 
     }
 
     void PlayerDefaultInputs()
     {
-        if (inputManager.InteractInput.InputPressed == true)
+        if (inputManager.InteractInput.InputPressed)
             Debug.Log($"Interact");
 
-        if (inputManager.RefreshKeybinds.InputPressed == true)
-        {
+        if (inputManager.RefreshKeybinds.InputPressed)
             inputManager.RefreshInputs();
+        
+        if(inputManager.SlidingInput.Value)
+        {
+            sliding = true;
+            damping = SlidingDamping;
+            Camera.main.fieldOfView = Mathf.Lerp(DefaultCameraFOV,DeltaCameraFOV+DefaultCameraFOV,inputManager.SlidingInput.TimeHeld/0.2f);
+        }
+        else
+        {
+            sliding = false;
+            damping = DefaultDamping;
+            Camera.main.fieldOfView = Mathf.Lerp(DefaultCameraFOV + DeltaCameraFOV, DefaultCameraFOV, inputManager.SlidingInput.TimeSinceRelease / 0.2f);
         }
             
     }

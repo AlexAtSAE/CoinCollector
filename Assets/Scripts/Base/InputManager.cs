@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour
     public static InputManager instance;
     public UserSettings userSettings;
     [CustomInput] public BooleanInput JumpInput;
+    [CustomInput] public BooleanInput SlidingInput;
     [CustomInput] public BooleanInput InteractInput;
     [CustomInput] public BooleanInput RefreshKeybinds;
     [CustomInput] public VectorInput MovementInput;
@@ -29,6 +30,7 @@ public class InputManager : MonoBehaviour
         RefreshKeybinds.Update();
         MovementInput.Update();
         RotateView.Update();
+        SlidingInput.Update();
     }
     public void RefreshInputs()
     {
@@ -36,6 +38,7 @@ public class InputManager : MonoBehaviour
         JumpInput = new BooleanInput(new KeyInput(KeyCode.Space));
         InteractInput = new BooleanInput(new KeyInput(userSettings.InteractKey));
         RefreshKeybinds = new BooleanInput(new KeyInput(KeyCode.Return));
+        SlidingInput = new BooleanInput(new KeyInput(userSettings.SlideKey));
 
         MovementInput = new VectorInput(
             new KeyInput(KeyCode.W, inputEffects.SwizzleXY),
@@ -46,6 +49,7 @@ public class InputManager : MonoBehaviour
         RotateView = new MouseVectorInput(
             new MouseInput("Mouse X"),
             new MouseInput("Mouse Y", inputEffects.SwizzleXY));
+
 
     }
 }

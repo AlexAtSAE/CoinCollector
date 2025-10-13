@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: Assembly-CSharp::GameSettings
   InteractKey: 101
+  SlideKey: 99
   gamePaused: 0
   mouseSensitivity: {x: 120, y: 120}
+  FOV: 80
