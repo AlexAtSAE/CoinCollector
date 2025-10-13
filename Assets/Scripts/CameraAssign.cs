@@ -7,10 +7,4 @@ public class CameraAssign : MonoBehaviour
         Camera cam = GetComponent<Camera>();
         cam.tag = "MainCamera";
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

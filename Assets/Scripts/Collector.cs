@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,7 @@ public class Collector : MonoBehaviour
 {
     public int AmountCollected;
     public RawImage winscreen;
+    public TextMeshProUGUI TextBlock;
     public void Start()
     {
         winscreen.enabled = false;
@@ -17,9 +19,10 @@ public class Collector : MonoBehaviour
         {
             AmountCollected++;
             Debug.Log($"Hit a coin! {AmountCollected} Collected");
-            Destroy(otherObject);
+            Destroy(otherObject); 
+            TextBlock?.SetText($"Coins collected: {AmountCollected}");
 
-            if(AmountCollected >= 5)
+            if (AmountCollected >= 5)
             {
                 winscreen.enabled = true;
             }

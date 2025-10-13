@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8267725210273393321}
   - component: {fileID: 5353515304212293640}
-  - component: {fileID: 2347733877367717325}
+  - component: {fileID: 4035980304459489917}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Objective
@@ -54,8 +54,8 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.70520794, y: 0.12421619, z: 0.67068034}
-  m_Center: {x: -0.0060735345, y: 0.002275873, z: 0.010030657}
---- !u!54 &2347733877367717325
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &4035980304459489917
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 5689985388921836121}
   - component: {fileID: 2043449124573511695}
   - component: {fileID: 817992280741828365}
+  - component: {fileID: 3397248244627552161}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -108,8 +109,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8462900277502319879}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.000000018615, y: 0, z: -0.00000003723}
+  m_LocalRotation: {x: -0.62511665, y: -0.33049843, z: 0.33049843, w: -0.62511665}
+  m_LocalPosition: {x: 0, y: 0.7161037, z: 0}
   m_LocalScale: {x: 0.68769, y: 0.057717886, z: 0.68769}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -171,3 +172,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3397248244627552161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8462900277502319879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac067d4fe697aa4bbb85ed95c84960e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinSpinner
+  offsetHeight: 0.5
+  bounceMult: 0.5
+  bounceSpeed: 4
+  rotateSpeed: 30
+  parentTransform: {fileID: 8267725210273393321}
