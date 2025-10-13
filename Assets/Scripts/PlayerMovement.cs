@@ -13,6 +13,11 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 1.0f;
     
     public UserSettings userSettings;
+
+
+    [Header("TESTING NEW SETTINGS")]
+    [SerializeField] private float damping;
+    [SerializeField] private float jumpCD;
     void Start()
     {
         inputManager = InputManager.instance;
@@ -35,12 +40,26 @@ public class PlayerMovement : MonoBehaviour
     void AffectPlayer()
     {
         Vector2 movementInputValue = inputManager.MovementInput.Value;
+        //Move it
         if (!movementInputValue.Equals(Vector2.zero))
         {
             Vector3 fwd = body.forward * speed * Time.deltaTime * movementInputValue.y;
             Vector3 right = body.right * speed * Time.deltaTime * movementInputValue.x;
-            rb.AddForce(fwd + right);
+            rb.linearVelocity += (fwd + right)/Mathf.Max(1,rb.linearVelocity.magnitude);
         }
+        //Damp it
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x * damping, rb.linearVelocity.y,rb.linearVelocity.z*damping);
+
+        //Jump it
+        if (inputManager.JumpInput.Value && jumpCD < 1)
+        {
+            rb.linearVelocity = rb.linearVelocity + new Vector3(0, jumpForce, 0);
+            jumpCD += 1f;
+        }
+        //Cool it
+        jumpCD = Mathf.Max(-0.1f, jumpCD-Time.deltaTime);
+            
+        //Rotate it
         Vector2 cameraInputValue = inputManager.RotateView.Value;
         anglePitch += cameraInputValue.x * Time.deltaTime * userSettings.mouseSensitivity.x;
         angleYaw += cameraInputValue.y * Time.deltaTime * userSettings.mouseSensitivity.y;
@@ -48,11 +67,6 @@ public class PlayerMovement : MonoBehaviour
         cam.rotation = Quaternion.Euler(-angleYaw, anglePitch, 0);
         body.rotation = Quaternion.Euler(0, anglePitch, 0);
 
-        if (inputManager.JumpInput.Value)
-        {
-            rb.AddForce(new  Vector3(0, jumpForce, 0), ForceMode.Impulse);
-        }
-        
 
     }
 
