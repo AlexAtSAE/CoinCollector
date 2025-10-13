@@ -16,4 +16,4 @@ MonoBehaviour:
   SlideKey: 99
   gamePaused: 0
   mouseSensitivity: {x: 120, y: 120}
-  FOV: 80
+  FOV: 75
