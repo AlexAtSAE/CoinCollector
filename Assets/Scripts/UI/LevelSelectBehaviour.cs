@@ -13,13 +13,6 @@ public class LevelSelectBehaviour : MonoBehaviour
         thisCanvas = gameObject.GetComponent<Canvas>();
         thisCanvas.enabled = false;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void LevelSelect(string Scene)
     {
         SceneManager.LoadScene(Scene);
