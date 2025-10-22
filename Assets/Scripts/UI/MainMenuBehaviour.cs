@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuBehaviour : MonoBehaviour
 {
     public Canvas Options;
+    public Canvas Play;
     private Canvas thisCanvas;
     public void Start()
     {
@@ -12,7 +13,9 @@ public class MainMenuBehaviour : MonoBehaviour
     }
     public void PressedPlay()
     {
-        SceneManager.LoadScene("Game");
+        Play.enabled = true;
+        thisCanvas.enabled = false;
+        //SceneManager.LoadScene("Game");
     }
     public void PressedOptions()
     {
