@@ -1,10 +1,14 @@
 using System.Linq;
 using UnityEngine;
 
-public abstract class Input<t>
+public interface CustomInputType
+{
+    public void Update();
+}
+public abstract class Input<t> : CustomInputType
 {
     public t Value;
-    abstract public void Update();
+    public abstract void Update();
 }
 
 /// <summary>

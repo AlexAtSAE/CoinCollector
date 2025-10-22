@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -11,6 +14,8 @@ public class InputManager : MonoBehaviour
     [CustomInput] public BooleanInput RefreshKeybinds;
     [CustomInput] public VectorInput MovementInput;
     [CustomInput] public MouseVectorInput RotateView;
+    
+    private HashSet<CustomInputType> inputs;
     void OnEnable()
     {
         instance = this;
@@ -19,18 +24,14 @@ public class InputManager : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        inputs = new HashSet<CustomInputType>();
         RefreshInputs();
     }
 
     void Update()
     {
-        //Figure out a way to collect these and update them automatically (attributes?) [CustomInput]
-        JumpInput.Update();
-        InteractInput.Update();
-        RefreshKeybinds.Update();
-        MovementInput.Update();
-        RotateView.Update();
-        SlidingInput.Update();
+        foreach (CustomInputType inp in inputs)
+            inp.Update();
     }
     public void RefreshInputs()
     {
@@ -51,10 +52,17 @@ public class InputManager : MonoBehaviour
             new MouseInput("Mouse Y", inputEffects.SwizzleXY));
 
 
+        //Collect inputs for updater
+        
+        FieldInfo[] fields = typeof(InputManager).GetFields();
+        inputs.Clear();
+        foreach (FieldInfo field in fields)
+        {
+            if (field.GetCustomAttributes(typeof(CustomInput)).Any())
+                inputs.Add(field.GetValue(this) as CustomInputType);
+        }
     }
 }
 
-class CustomInput : Attribute
-{
-    
-}
+[AttributeUsage(AttributeTargets.Field)]
+class CustomInput : Attribute{}
