@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     //Condense these into scriptable object??
     [Header("Speed")]
     public float speed;
+    public float slideAccelerationSpeed;
     public float maxSpeed;
     public float maxSlidingSpeed;
     public float slideMinSpeed;
@@ -73,8 +74,9 @@ public class PlayerMovement : MonoBehaviour
         //Move it
         if (!movementInputValue.Equals(Vector2.zero))
         {
-            Vector3 fwd =  speed * movementInputValue.y * body.forward ;
-            Vector3 right = sliding ? Vector3.zero : speed *  movementInputValue.x * body.right;
+            float mult = sliding && rb.linearVelocity.magnitude >= maxSpeed ? slideAccelerationSpeed : speed;
+            Vector3 fwd =  mult * movementInputValue.y * body.forward ;
+            Vector3 right = sliding ? Vector3.zero : mult *  movementInputValue.x * body.right;
             rb.AddForce(fwd + right);
         }
         

@@ -37,7 +37,8 @@ public class Collector : MonoBehaviour
     private float timeUntilClose = 5f;
     private void Update()
     {
-
+        if (winscreen == null)
+            return;
         if (winscreen.enabled)
         {
             ClosingAlertTextBlock?.SetText($"Closing application in {Mathf.Floor(timeUntilClose)}");
