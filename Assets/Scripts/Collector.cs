@@ -14,9 +14,10 @@ public class Collector : MonoBehaviour
         winscreen.enabled = false;
         ClosingAlertTextBlock.enabled = false;
     }
-    private void OnCollisionStay(Collision collision)
+
+    void OnTriggerEnter(Collider other)
     {
-        GameObject otherObject = collision.gameObject;
+        GameObject otherObject = other.gameObject;
         if (otherObject.CompareTag("Objective"))
         {
             AmountCollected++;

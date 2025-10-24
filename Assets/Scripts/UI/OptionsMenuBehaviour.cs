@@ -12,7 +12,7 @@ public class OptionsMenuBehaviour : MonoBehaviour
     public TextMeshProUGUI YText; public Slider Yslider;
     public Canvas MainMenu;
 
-    private float timeout = 0;
+    //private float timeout = 0;
     private bool changingSlide;
 
     private Canvas thisCanvas;

@@ -385,6 +385,7 @@ GameObject:
   - component: {fileID: 1715069447237637199}
   - component: {fileID: 2116761677986988401}
   - component: {fileID: 6394582985223241031}
+  - component: {fileID: 892213327451277943}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -426,10 +427,21 @@ MonoBehaviour:
   rb: {fileID: 1715069447237637199}
   cam: {fileID: 2224309726328603113}
   body: {fileID: 4414944051268353983}
-  cameraSensitivity: {x: 120, y: 120}
-  speed: 2000
-  paused: 0
-  jumpForce: 1
+  speed: 247.2
+  maxSpeed: 35
+  maxSlidingSpeed: 100
+  slideMinSpeed: 20
+  jumpForce: 350
+  AdditionalGravity: 0
+  DefaultDamping: 0.82
+  SlidingDamping: 0.993
+  jumpResetLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  userSettings: {fileID: 11400000, guid: cdf6ae74ba998c34f9dd7eee1c758a27, type: 2}
+  speedText: {fileID: 0}
+  sliding: 0
+  canJump: 1
 --- !u!54 &1715069447237637199
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -439,8 +451,8 @@ Rigidbody:
   m_GameObject: {fileID: 7733987966364076202}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0.5
-  m_AngularDamping: 100
+  m_LinearDamping: 0
+  m_AngularDamping: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -464,17 +476,17 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7733987966364076202}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: eb8f6340b3c58054b85588a0d853f5aa, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -491,3 +503,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collector
   AmountCollected: 0
+  winscreen: {fileID: 0}
+  TextBlock: {fileID: 0}
+  ClosingAlertTextBlock: {fileID: 0}
+--- !u!136 &892213327451277943
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7733987966364076202}
+  m_Material: {fileID: 13400000, guid: eb8f6340b3c58054b85588a0d853f5aa, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

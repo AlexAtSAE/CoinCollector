@@ -147,7 +147,7 @@ Transform:
   m_GameObject: {fileID: 206794312}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.4694715, w: 0.8829476}
-  m_LocalPosition: {x: -1.88, y: 6.02, z: -2.49}
+  m_LocalPosition: {x: -1.91, y: 6.04, z: -2.49}
   m_LocalScale: {x: 7.726298, y: 1, z: 10.315}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -244,7 +244,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5689985388921836121, guid: d3a3f915034d85846b67fd66320d446d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5012139
+      value: 0.99690706
       objectReference: {fileID: 0}
     - target: {fileID: 5689985388921836121, guid: d3a3f915034d85846b67fd66320d446d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -252,19 +252,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5689985388921836121, guid: d3a3f915034d85846b67fd66320d446d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.5912378
+      value: 0.4255475
       objectReference: {fileID: 0}
     - target: {fileID: 5689985388921836121, guid: d3a3f915034d85846b67fd66320d446d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.5912378
+      value: 0.4255475
       objectReference: {fileID: 0}
     - target: {fileID: 5689985388921836121, guid: d3a3f915034d85846b67fd66320d446d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.3878633
+      value: 0.56472063
       objectReference: {fileID: 0}
     - target: {fileID: 5689985388921836121, guid: d3a3f915034d85846b67fd66320d446d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.3878633
+      value: -0.56472063
       objectReference: {fileID: 0}
     - target: {fileID: 7575197837897307226, guid: d3a3f915034d85846b67fd66320d446d, type: 3}
       propertyPath: m_Name
@@ -652,7 +652,7 @@ GameObject:
   - component: {fileID: 674122340}
   - component: {fileID: 674122339}
   - component: {fileID: 674122338}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1104,42 +1104,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 368641900425480303, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
-      propertyPath: damping
-      value: 0.914
-      objectReference: {fileID: 0}
-    - target: {fileID: 368641900425480303, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
-      propertyPath: jumpForce
-      value: 7.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 368641900425480303, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
-      propertyPath: userSettings
-      value: 
-      objectReference: {fileID: 11400000, guid: cdf6ae74ba998c34f9dd7eee1c758a27, type: 2}
-    - target: {fileID: 368641900425480303, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
-      propertyPath: DefaultDamping
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 368641900425480303, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
-      propertyPath: DeltaCameraFOV
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 368641900425480303, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
-      propertyPath: SlidingDamping
-      value: 0.99
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715069447237637199, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715069447237637199, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
-      propertyPath: m_LinearDamping
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715069447237637199, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
-      propertyPath: m_AngularDamping
-      value: 0.05
-      objectReference: {fileID: 0}
     - target: {fileID: 4414944051268353983, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.543542
@@ -1192,6 +1156,10 @@ PrefabInstance:
       propertyPath: winscreen
       value: 
       objectReference: {fileID: 276518210}
+    - target: {fileID: 6394582985223241031, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
+      propertyPath: AmountCollected
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6394582985223241031, guid: 3bf774fcdeec7994db84876d171b59f2, type: 3}
       propertyPath: ClosingAlertTextBlock
       value: 
@@ -2059,6 +2027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a960a2afc1c6b58479a6beee26d77f5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPSLimit
+  FPS: 120
 --- !u!114 &1968974608
 MonoBehaviour:
   m_ObjectHideFlags: 0
