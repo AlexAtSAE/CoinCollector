@@ -428,19 +428,29 @@ MonoBehaviour:
   cam: {fileID: 2224309726328603113}
   body: {fileID: 4414944051268353983}
   speed: 247.2
+  slideAccelerationSpeed: 0
   maxSpeed: 35
   maxSlidingSpeed: 100
   slideMinSpeed: 20
   jumpForce: 350
   AdditionalGravity: 0
-  DefaultDamping: 0.82
-  SlidingDamping: 0.993
+  slideJumpMaxMultiplier: 3
+  slideJumpSpeedToMultRatio: 50
+  jumpGracePeriod: 0.05
   jumpResetLayer:
     serializedVersion: 2
     m_Bits: 8
+  jumpResetExcludeLayers:
+  - serializedVersion: 2
+    m_Bits: 0
+  - serializedVersion: 2
+    m_Bits: 0
+  DefaultDamping: 0.82
+  SlidingDamping: 0.993
   userSettings: {fileID: 11400000, guid: cdf6ae74ba998c34f9dd7eee1c758a27, type: 2}
   speedText: {fileID: 0}
   sliding: 0
+  isGrounded: 1
   canJump: 1
 --- !u!54 &1715069447237637199
 Rigidbody:

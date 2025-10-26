@@ -24,7 +24,10 @@ public class PlayerMovement : MonoBehaviour
     public float slideJumpMaxMultiplier = 3.0f;
     public float slideJumpSpeedToMultRatio = 50f;
     public float jumpGracePeriod = 0.05f;
-    [SerializeField] private LayerMask jumpResetLayer; // ground
+    [Tooltip("Leave empty to use exclude, if both are empty: this is the default one")]
+    [SerializeField] private LayerMask jumpResetLayers;
+    [Tooltip("Leave empty to use include")]
+    [SerializeField] private LayerMask jumpResetExcludeLayers; 
     
     [Header("Damping")]
     [Range(0, 1)][SerializeField] private float DefaultDamping;
@@ -40,11 +43,14 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public bool sliding;
     [HideInInspector] public bool isGrounded = true;
     [HideInInspector] public bool canJump = true;
+    
     private float jumpGraceTimer;
+    private LayerMask layers;
     void Start()
     {
         inputManager = InputManager.instance;
         DefaultCameraFOV = userSettings.FOV;
+        FigureOutGroundLayers();
     }
     void Update()
     {
@@ -117,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
         //Jump it
         Vector2 xzVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.z);
         //Test if grounded
-        if (Physics.Raycast(body.position - (Vector3.up * 0.99f), Vector3.down, 0.1f, jumpResetLayer)) 
+        if (Physics.Raycast(body.position - (Vector3.up * 0.99f), Vector3.down, 0.1f, layers)) 
             isGrounded = true;
         else isGrounded = false;
             
@@ -160,6 +166,9 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector3(xzVelNorm.x*maxSpeed, rb.linearVelocity.y , xzVelNorm.y*maxSpeed);
         }
     }
+
+    void FigureOutGroundLayers() =>
+        layers = jumpResetLayers.value != 0 ? jumpResetLayers : ~jumpResetExcludeLayers;
 
     void PlayerDefaultInputs()
     {
