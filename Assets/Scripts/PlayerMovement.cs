@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public float AdditionalGravity = 30.0f;
     public float slideJumpMaxMultiplier = 3.0f;
     public float slideJumpSpeedToMultRatio = 50f;
+    public float jumpGracePeriod = 0.05f;
     [SerializeField] private LayerMask jumpResetLayer; // ground
     
     [Header("Damping")]
@@ -37,32 +38,33 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] [CanBeNull] private TextMeshProUGUI speedText;
     [HideInInspector] public bool sliding;
+    [HideInInspector] public bool isGrounded = true;
     [HideInInspector] public bool canJump = true;
+    private float jumpGraceTimer;
     void Start()
     {
         inputManager = InputManager.instance;
         DefaultCameraFOV = userSettings.FOV;
     }
-    
-    
-
     void Update()
     {
         if (!userSettings.gamePaused)
         {
             PlayerDefaultInputs();
             RotateCamera();
+            JumpGrace();
         }
-
     }
+    
     void FixedUpdate()
     {
         if (!userSettings.gamePaused)
         {
             MovePlayer();
+            JumpMechanic();
         }
 
-        if (speedText != null) 
+        if (speedText is not null) 
             speedText.text =$"HorizontalSpeed: {new Vector2(rb.linearVelocity.x, rb.linearVelocity.z).magnitude}\n" + 
                             $"Speed: {rb.linearVelocity.magnitude}";
     }
@@ -94,17 +96,34 @@ public class PlayerMovement : MonoBehaviour
             ClampVelocity(maxSpeed);
         if(sliding)
             ClampVelocity(maxSlidingSpeed);
-        
-            
+    }
 
+    private bool isGroundedBuffer;
+    void JumpGrace()
+    {
+        bool onLeftGround = isGroundedBuffer != isGrounded && isGrounded == false;
+        jumpGraceTimer = onLeftGround ? jumpGracePeriod : jumpGraceTimer-Time.deltaTime;
+        //if grounded, then you can jump
+        canJump = isGrounded || canJump;
+        //You just left the ground, can jump will be true. Test if you can still jump and if the timer >= 0
+        canJump = jumpGraceTimer >= 0 && canJump || canJump;
+        //You left the ground and the timer is less than 0, you can no longer jump
+        canJump = (!(jumpGraceTimer <= 0) || isGrounded) && canJump;
+        isGroundedBuffer = isGrounded;
+    }
+
+    void JumpMechanic()
+    {
         //Jump it
         Vector2 xzVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.z);
+        //Test if grounded
         if (Physics.Raycast(body.position - (Vector3.up * 0.99f), Vector3.down, 0.1f, jumpResetLayer)) 
-            canJump = true;
-        else canJump = false;
+            isGrounded = true;
+        else isGrounded = false;
             
         if (inputManager.JumpInput.Value && canJump)
         {
+            rb.linearVelocity = new Vector3(xzVelocity.x,0.0f,xzVelocity.y);
             if (sliding) rb.AddForce(new Vector3(0, Mathf.Clamp(jumpForce * (xzVelocity.magnitude/slideJumpSpeedToMultRatio),jumpForce,jumpForce*slideJumpMaxMultiplier), 0));
             else rb.AddForce(new Vector3(0, jumpForce, 0));
             canJump = false;
@@ -138,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
         if (xzVelocity.magnitude >= maxSpeed)
         {
             Vector2 xzVelNorm = xzVelocity.normalized;
-            rb.linearVelocity = new Vector3(xzVelNorm.x*maxSpeed, rb.linearVelocity.y , xzVelNorm.y*maxSpeed);;
+            rb.linearVelocity = new Vector3(xzVelNorm.x*maxSpeed, rb.linearVelocity.y , xzVelNorm.y*maxSpeed);
         }
     }
 
