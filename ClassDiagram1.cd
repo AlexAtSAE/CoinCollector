@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PlayerMovement">
+    <Position X="1.25" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>EAQChEAIAmBAJAQEhAABAEEAQyACCcAoCAAlBAQQgCA=</HashCode>
+      <FileName>Assets\Scripts\PlayerMovement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Collector">
+    <Position X="6" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAACAABAAAAAIAAAAgAAAAACAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Collector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoinSpawner">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAIAAAAAAAAAAAAAAAAAAAAAAIAAAAAIAAAAA=</HashCode>
+      <FileName>Assets\Scripts\CoinSpawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoinSpinner">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAABAAQAAAAAAAAAAAAQAAAAAAAAQAAAAAAAACQA=</HashCode>
+      <FileName>Assets\Scripts\CoinAnim.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputManager">
+    <Position X="6.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAEAAAGACAEABAAgAAAAAAABAABAAAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\Base\InputManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CustomInput" Collapsed="true">
+    <Position X="6.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Base\InputManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Input&lt;t&gt;">
+    <Position X="18" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Base\InputClasses.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BooleanInput">
+    <Position X="19" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUQAAAAAAABAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Scripts\Base\InputClasses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LinearInput">
+    <Position X="15.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Base\InputClasses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VectorInput">
+    <Position X="17.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Base\InputClasses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MouseVectorInput">
+    <Position X="20.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Assets\Scripts\Base\InputClasses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MouseInput">
+    <Position X="18" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Base\InputClasses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KeyInput">
+    <Position X="15.5" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Base\InputClasses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LevelSelectBehaviour">
+    <Position X="12.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAEAgQAACAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\LevelSelectBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainMenuBehaviour">
+    <Position X="10.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAgAAAAAAAAAAQAAAgAAgAAAABBAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\MainMenuBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuHandler">
+    <Position X="8.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAQAA=</HashCode>
+      <FileName>Assets\Scripts\UI\MenuHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OptionsMenuBehaviour">
+    <Position X="8.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAoACACAAAICAAAAAEQAAAAQgBAAACAJAAIAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\OptionsMenuBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="CustomInputType">
+    <Position X="20.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Base\InputClasses.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="inputEffects">
+    <Position X="20.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAIAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Base\InputClasses.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -3,6 +3,7 @@ Shader "Custom/stripesurface"
     Properties
     {
         _Stripeness ("Stripeness", Float) = 1
+        [MaterialToggle] _HorizontalVertical ("HorizontalVertical", Float) = 0
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
@@ -29,6 +30,7 @@ Shader "Custom/stripesurface"
         half _Glossiness;
         half _Metallic;
         float _Stripeness;
+        bool _HorizontalVertical;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -40,10 +42,12 @@ Shader "Custom/stripesurface"
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             // Albedo comes from a texture tinted by color
-            float val = step((sin(_Stripeness*IN.uv_MainTex)+1)/2,0.5);
+            float val = step((sin(_Stripeness*(_HorizontalVertical > 0.5 ? IN.uv_MainTex.x : IN.uv_MainTex.y))+1)/2,0.5);
             fixed4 c = float4(val.xxx,1);
             //fixed4 c = float4(IN.uv_MainTex.xy,0,1);
+
             o.Albedo = c.rgb;
+
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
